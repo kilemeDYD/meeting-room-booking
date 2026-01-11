@@ -5,50 +5,85 @@
     <title>会议室列表</title>
     <link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}">
 </head>
-<body class="container py-4">
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h3 class="m-0">会议室列表</h3>
-    <form th:action="@{/logout}" method="post" class="m-0">
-        <span class="me-2 text-muted" th:text="${username}"></span>
-        <button class="btn btn-outline-secondary btn-sm" type="submit">退出</button>
-    </form>
+<body class="bg-light">
+<div class="container py-4">
+
+    <!-- 顶部条：标题 + 当前用户 + 退出 -->
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3 class="m-0">会议室列表</h3>
+
+        <div class="d-flex align-items-center gap-2">
+            <span class="text-muted">
+                <span th:text="${session.username}">username</span>
+                <span class="badge text-bg-secondary ms-1" th:text="${session.role}">ROLE</span>
+            </span>
+
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <button class="btn btn-outline-secondary btn-sm" type="submit">退出</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Flash 提示：success / error（如果你项目里有用） -->
+    <div th:if="${success}" class="alert alert-success py-2" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger py-2" th:text="${error}"></div>
+
+    <!-- 列表卡片 -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th style="width: 70px;">ID</th>
+                        <th>名称</th>
+                        <th>位置</th>
+                        <th style="width: 90px;">容量</th>
+                        <th style="width: 90px;">状态</th>
+                        <th style="width: 170px;">操作</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="room : ${rooms}">
+                        <td th:text="${room.id}">1</td>
+                        <td th:text="${room.name}">第一会议室</td>
+                        <td th:text="${room.location}">1号楼3层</td>
+                        <td th:text="${room.capacity}">10</td>
+
+                        <!-- 状态：可用/不可用（按你的字段自行调整） -->
+                        <td>
+                            <span th:if="${room.enabled}" class="badge bg-success">可用</span>
+                            <span th:unless="${room.enabled}" class="badge bg-secondary">停用</span>
+                        </td>
+
+
+
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a class="btn btn-primary btn-sm"
+                                   th:href="@{|/rooms/${room.id}/book|}">去预约</a>
+
+                                <a class="btn btn-outline-primary btn-sm"
+                                   th:href="@{|/rooms/${room.id}|}">详情</a>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <!-- 空列表兜底 -->
+                    <tr th:if="${#lists.isEmpty(rooms)}">
+                        <td colspan="6" class="text-center text-muted py-4">暂无会议室</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
 </div>
-
-<table class="table table-striped align-middle">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>名称</th>
-        <th>位置</th>
-        <th>容量</th>
-        <th>状态</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="r : ${rooms}">
-        <td th:text="${r.id}"></td>
-        <td th:text="${r.name}"></td>
-        <td th:text="${r.location}"></td>
-        <td th:text="${r.capacity}"></td>
-        <td>
-            <span th:if="${r.enabled}" class="badge bg-success">可用</span>
-            <span th:if="${!r.enabled}" class="badge bg-secondary">停用</span>
-        </td>
-        <td class="text-end">
-            <a class="btn btn-primary btn-sm"
-               th:href="@{'/reservations/new?roomId=' + ${r.id}}">
-                去预约
-            </a>
-            <a class="btn btn-outline-secondary btn-sm"
-               th:href="@{'/rooms/' + ${r.id}}">
-                详情
-            </a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
 </body>
 </html>
