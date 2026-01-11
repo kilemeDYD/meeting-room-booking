@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>登录</title>
+    <link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}">
+</head>
+<body class="container py-5">
+<h3 class="mb-4">登录</h3>
+
+<form th:action="@{/auth/login}" th:object="${loginForm}" method="post" class="w-50">
+
+    <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
+        <div th:each="e : ${#fields.globalErrors()}" th:text="${e}"></div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">用户名</label>
+        <input class="form-control" th:field="*{username}">
+        <div class="text-danger" th:errors="*{username}"></div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">密码</label>
+        <input type="password" class="form-control" th:field="*{password}">
+        <div class="text-danger" th:errors="*{password}"></div>
+    </div>
+
+    <button class="btn btn-primary" type="submit">登录</button>
+</form>
+</body>
+</html>
+
+
+<hr class="my-4">
+<p class="text-muted mb-1">开发账号：</p>
+<ul class="text-muted">
+    <li>admin / admin123</li>
+    <li>user1 / user123</li>
+</ul>
+</body>
+</html>

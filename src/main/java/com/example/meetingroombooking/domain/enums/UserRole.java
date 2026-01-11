@@ -1,4 +1,6 @@
 package com.example.meetingroombooking.domain.enums;
 
-public class UserRole {
+public enum UserRole {
+    USER,
+    ADMIN
 }

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>会议室详情</title>
+    <link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}">
+</head>
+<body class="container py-4">
+
+<a th:href="@{/rooms}" class="btn btn-link p-0 mb-3">← 返回列表</a>
+
+<h3 th:text="${room.name}"></h3>
+
+<ul class="list-group my-3">
+    <li class="list-group-item">位置：<span th:text="${room.location}"></span></li>
+    <li class="list-group-item">容量：<span th:text="${room.capacity}"></span></li>
+    <li class="list-group-item">设备：<span th:text="${room.equipment}"></span></li>
+    <li class="list-group-item">状态：
+        <span th:if="${room.enabled}" class="badge bg-success">可用</span>
+        <span th:if="${!room.enabled}" class="badge bg-secondary">停用</span>
+    </li>
+</ul>
+
+<a class="btn btn-primary" th:href="@{'/reservations/new?roomId=' + ${room.id}}">去预约</a>
+
+</body>
+</html>

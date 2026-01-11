@@ -1,35 +1,31 @@
 package com.example.meetingroombooking.domain.entity;
 
+import com.example.meetingroombooking.domain.enums.UserRole;
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(
-        name = "room",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "uk_room_name", columnNames = "name")
-        },
-        indexes = {
-                @Index(name = "idx_room_enabled", columnList = "enabled")
-        }
+        name = "app_user",
+        uniqueConstraints = @UniqueConstraint(name = "uk_user_username", columnNames = "username"),
+        indexes = @Index(name = "idx_user_role", columnList = "role")
 )
-public class Room {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 64)
-    private String name;
+    private String username;
 
-    @Column(length = 128)
-    private String location;
+    @Column(name = "password_hash", nullable = false, length = 128)
+    private String passwordHash;
 
-    @Column(nullable = false)
-    private Integer capacity = 0;
-
-    @Column(length = 256)
-    private String equipment;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 32)
+    private UserRole role;
 
     @Column(nullable = false)
     private Boolean enabled = true;
@@ -52,22 +48,19 @@ public class Room {
         this.updatedAt = LocalDateTime.now();
     }
 
-    // ===== getters/setters =====
+    // getters/setters
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
 
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
+    public String getPasswordHash() { return passwordHash; }
+    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
 
-    public Integer getCapacity() { return capacity; }
-    public void setCapacity(Integer capacity) { this.capacity = capacity; }
-
-    public String getEquipment() { return equipment; }
-    public void setEquipment(String equipment) { this.equipment = equipment; }
+    public UserRole getRole() { return role; }
+    public void setRole(UserRole role) { this.role = role; }
 
     public Boolean getEnabled() { return enabled; }
     public void setEnabled(Boolean enabled) { this.enabled = enabled; }

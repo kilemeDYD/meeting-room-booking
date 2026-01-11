@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>会议室列表</title>
+    <link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}">
+</head>
+<body class="container py-4">
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="m-0">会议室列表</h3>
+    <form th:action="@{/logout}" method="post" class="m-0">
+        <span class="me-2 text-muted" th:text="${username}"></span>
+        <button class="btn btn-outline-secondary btn-sm" type="submit">退出</button>
+    </form>
+</div>
+
+<table class="table table-striped align-middle">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>名称</th>
+        <th>位置</th>
+        <th>容量</th>
+        <th>状态</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="r : ${rooms}">
+        <td th:text="${r.id}"></td>
+        <td th:text="${r.name}"></td>
+        <td th:text="${r.location}"></td>
+        <td th:text="${r.capacity}"></td>
+        <td>
+            <span th:if="${r.enabled}" class="badge bg-success">可用</span>
+            <span th:if="${!r.enabled}" class="badge bg-secondary">停用</span>
+        </td>
+        <td class="text-end">
+            <a class="btn btn-primary btn-sm"
+               th:href="@{'/reservations/new?roomId=' + ${r.id}}">
+                去预约
+            </a>
+            <a class="btn btn-outline-secondary btn-sm"
+               th:href="@{'/rooms/' + ${r.id}}">
+                详情
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
