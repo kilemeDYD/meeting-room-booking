@@ -71,7 +71,7 @@ class ReservationServiceTest {
         );
         assertEquals(1, cntReservation);
 
-        //（可选）再验证 slot 只属于第一次创建（9:00-10:00 一共 4 个 15min 槽）
+        //再验证 slot 只属于第一次创建（9:00-10:00 一共 4 个 15min 槽）
         Integer cntSlot = jdbcTemplate.queryForObject(
                 "select count(*) from reservation_slot where room_id=? and date=?",
                 Integer.class, roomId, date
