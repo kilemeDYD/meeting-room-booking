@@ -1,4 +1,4 @@
 package com.example.meetingroombooking.service;
 
-public class ReservationService {
+public class RoomService {
 }

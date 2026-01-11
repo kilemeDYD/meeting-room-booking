@@ -1,4 +1,4 @@
 package com.example.meetingroombooking.repo;
 
-public class ReservationRepository {
+public class RoomRepository {
 }

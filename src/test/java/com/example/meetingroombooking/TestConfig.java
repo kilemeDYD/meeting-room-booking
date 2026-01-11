@@ -1,4 +1,4 @@
 package com.example.meetingroombooking;
 
-public class ReservationServiceTest {
+public class TestConfig {
 }
